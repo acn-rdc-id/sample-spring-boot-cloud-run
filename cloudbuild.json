@@ -5,7 +5,7 @@
         "args": [
           "build",
           "-t",
-          "global-docker.pkg.dev/genuine-vent-457105-i4/springboot-helloworld/springboot-helloworld",
+          "gcr.io/genuine-vent-457105-i4/springboot-helloworld/springboot-helloworld",
           "."
         ]
       },
@@ -13,18 +13,18 @@
         "name": "gcr.io/cloud-builders/docker",
         "args": [
           "push",
-          "global-docker.pkg.dev/genuine-vent-457105-i4/springboot-helloworld/springboot-helloworld"
+          "gcr.io/genuine-vent-457105-i4/springboot-helloworld/springboot-helloworld"
         ]
       },
       {
-        "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+        "name": "gcr.io/google.com/cloud-builders/gcloud",
         "entrypoint": "gcloud",
         "args": [
           "run",
           "deploy",
           "springboot-helloworld",
           "--image",
-          "global-docker.pkg.dev/genuine-vent-457105-i4/springboot-helloworld/springboot-helloworld",
+          "gcr.io/genuine-vent-457105-i4/springboot-helloworld/springboot-helloworld",
           "--region",
           "asia-southeast1",
           "--platform",
@@ -35,7 +35,7 @@
     ],
     "options": { "logging": "CLOUD_LOGGING_ONLY" },
     "images": [
-      "global-docker.pkg.dev/genuine-vent-457105-i4/springboot-helloworld/springboot-helloworld"
+      "gcr.io/genuine-vent-457105-i4/springboot-helloworld/springboot-helloworld"
     ]
   }
   
