@@ -1,12 +1,27 @@
-# Use an official OpenJDK runtime as a parent image
-FROM eclipse-temurin:17-jdk
+# Stage 1: Build the application using Maven
+FROM maven:3.9.4-eclipse-temurin-17 AS builder
 
-# Set the working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Copy the Spring Boot JAR file into the container
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+# Copy pom.xml and download dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Run the jar file
+# Copy source code
+COPY src ./src
+
+# Package the application
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run the application with a smaller runtime image
+FROM eclipse-temurin:17-jdk
+
+# Set working directory
+WORKDIR /app
+
+# Copy the jar from the builder stage
+COPY --from=builder /app/target/*.jar app.jar
+
+# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
